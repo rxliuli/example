@@ -8,7 +8,8 @@
     "lint:js": "vue-cli-service lint",
     "fix:js": "vue-cli-service lint --fix",
     "lint:css": "stylelint src/**/*.{vue,html,css,scss,sass}",
-    "fix:css": "stylelint --fix src/**/*.{vue,html,css,scss,sass}"
+    "fix:css": "stylelint --fix src/**/*.{vue,html,css,scss,sass}",
+    "format": "prettier-eslint --write \"src/**/*.{js,vue,html,scss,css}\""
   },
   "dependencies": {
     "core-js": "^2.6.5",
@@ -20,10 +21,16 @@
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.2.3",
+    "prettier": "^1.18.2",
+    "prettier-eslint-cli": "^5.0.0",
     "stylelint": "^11.0.0",
+    "stylelint-config-prettier": "^6.0.0",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-order": "^3.1.1",
+    "stylelint-prettier": "^1.1.1",
     "stylelint-scss": "^3.11.1",
     "vue-template-compiler": "^2.6.10"
   }
