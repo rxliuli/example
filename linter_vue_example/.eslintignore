@@ -1,0 +1,2 @@
+// 忽略掉 TypeScript 类型定义文件
+src/**/*.d.ts
