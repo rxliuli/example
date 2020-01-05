@@ -5,6 +5,6 @@
       <RouterLink to="/form2/">第二个表单</RouterLink>
     </div>
     <hr />
-    <RouterView />
+    <RouterView :key="$route.path" />
   </div>
 </template>

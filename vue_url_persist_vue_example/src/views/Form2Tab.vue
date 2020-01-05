@@ -17,15 +17,17 @@
 </template>
 
 <script>
+import { generateInitUrlData } from './js/VueUrlPersist'
+
 export default {
   name: 'Form2Tab',
+  mixins: [generateInitUrlData('form')],
   data() {
     return {
       form: {
         keyword: '',
         sex: 0,
       },
-      exps: ['form'],
     }
   },
 }

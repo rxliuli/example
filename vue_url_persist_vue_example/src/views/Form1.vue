@@ -29,15 +29,17 @@
 </template>
 
 <script>
+import { generateInitUrlData } from './js/VueUrlPersist'
+
 export default {
   name: 'Form1',
+  mixins: [generateInitUrlData('form')],
   data() {
     return {
       form: {
         keyword: '',
         hobbyList: [],
       },
-      exps: ['form'],
     }
   },
 }

@@ -11,7 +11,6 @@ function parseFieldStr(str) {
 
 /**
  * 安全的深度获取对象的字段
- * TODO 该函数尚处于早期测试阶段
  * 注: 只要获取字段的值为 {@type null|undefined}，就会直接返回 {@param defVal}
  * 类似于 ES2019 的可选调用链特性: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/%E5%8F%AF%E9%80%89%E9%93%BE
  * @param obj 获取的对象
@@ -38,7 +37,6 @@ export function get(obj, fields, defVal = null) {
 
 /**
  * 安全的深度设置对象的字段
- * TODO 该函数尚处于早期测试阶段
  * 注: 只要设置字段的值为 {@type null|undefined}，就会直接返回 {@param defVal}
  * 类似于 ES2019 的可选调用链特性: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/%E5%8F%AF%E9%80%89%E9%93%BE
  * @param obj 设置的对象
@@ -57,7 +55,7 @@ export function set(obj, fields, val) {
       return true
     }
     res = res[field]
-    if (typeof res === 'object') {
+    if (typeof res !== 'object') {
       return false
     }
   }
@@ -72,24 +70,22 @@ export function set(obj, fields, val) {
  * 注: 该函数第一次调用一定不会执行，第一次一定拿不到缓存值，后面的连续调用都会拿到上一次的缓存值。如果需要在第一次调用获取到的缓存值，则需要传入第三个参数 {@param init}，默认为 {@code undefined} 的可选参数
  * 注: 返回函数结果的高阶函数需要使用 {@see Proxy} 实现，以避免原函数原型链上的信息丢失
  *
- * @param delay 最小延迟时间，单位为 ms
  * @param action 真正需要执行的操作
+ * @param delay 最小延迟时间，单位为 ms
  * @param init 初始的缓存值，不填默认为 {@see undefined}
- * @return 包装后有去抖功能的函数。该函数是异步的，与需要包装的函数 {@see action} 是否异步没有太大关联
+ * @return function(...[*]=): Promise<any> {@see action} 是否异步没有太大关联
  */
-export function debounce(delay, action, init = null) {
+export function debounce(action, delay, init = null) {
   let flag
   let result = init
-  return new Proxy(action, {
-    apply(_, _this, args) {
-      return new Promise(resolve => {
-        if (flag) clearTimeout(flag)
-        flag = setTimeout(
-          () => resolve((result = Reflect.apply(_, _this, args))),
-          delay,
-        )
-        setTimeout(() => resolve(result), delay)
-      })
-    },
-  })
+  return function(...args) {
+    return new Promise(resolve => {
+      if (flag) clearTimeout(flag)
+      flag = setTimeout(
+        () => resolve((result = action.apply(this, args))),
+        delay,
+      )
+      setTimeout(() => resolve(result), delay)
+    })
+  }
 }
