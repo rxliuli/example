@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import { initUrlData, initNextUrlData } from './js/initUrlData'
-
 export default {
   name: 'Form2Tab',
   data() {
@@ -27,20 +25,8 @@ export default {
         keyword: '',
         sex: 0,
       },
+      exps: ['form'],
     }
-  },
-  created() {
-    initUrlData.call(this, ['form'])
-  },
-  //回车/路由更新时强制更新
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      initNextUrlData.call(vm, ['form'], to)
-    })
-  },
-  beforeRouteUpdate(to, from, next) {
-    initNextUrlData.call(this, ['form'], to)
-    next()
   },
 }
 </script>

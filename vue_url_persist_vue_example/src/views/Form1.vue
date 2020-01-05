@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import { initUrlData, initNextUrlData } from './js/initUrlData'
-
 export default {
   name: 'Form1',
   data() {
@@ -39,16 +37,8 @@ export default {
         keyword: '',
         hobbyList: [],
       },
+      exps: ['form'],
     }
-  },
-  created() {
-    //TODO vue router 在 hash 模式下不会处理 # 之前正常的 query param
-    initUrlData.call(this, ['form'])
-  },
-  beforeRouteUpdate(to, from, next) {
-    console.log('beforeRouteUpdate URL 变化了')
-    initNextUrlData.call(this, ['form'], to)
-    next()
   },
 }
 </script>
