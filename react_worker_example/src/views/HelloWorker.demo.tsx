@@ -14,6 +14,7 @@ const HelloWorkerDemo: React.FC<PropsType> = () => {
       console.log(`Counter: ${await obj.counter}`);
       await obj.inc();
       console.log(`Counter: ${await obj.counter}`);
+      console.log(`Counter: ${await obj.info.city}`);
     })();
   }, []);
   return <div>HelloWorkerDemo</div>;

@@ -5,7 +5,8 @@ const obj: HelloWorker = {
   counter: 0,
   inc() {
     this.counter++;
-  }
+  },
+  info: { city: "GZ" }
 };
 
 expose(obj);
