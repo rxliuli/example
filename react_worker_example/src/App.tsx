@@ -1,10 +1,10 @@
 import React from "react";
-import HelloWorkerDemo from "./views/HelloWorker.demo";
+import HelloClassWorkerDemo from "./views/HelloClass.worker.demo";
 
 function App() {
   return (
     <div className="App">
-      <HelloWorkerDemo />
+      <HelloClassWorkerDemo />
     </div>
   );
 }

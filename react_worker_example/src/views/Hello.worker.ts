@@ -1,5 +1,5 @@
 import { expose } from "comlink";
-import { HelloWorker } from "./hello.worker.type";
+import { HelloWorker } from "./Hello.worker.type";
 
 const obj: HelloWorker = {
   counter: 0,

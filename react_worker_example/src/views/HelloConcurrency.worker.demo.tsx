@@ -5,7 +5,7 @@ import { proxy, wrap } from "comlink";
 
 type PropsType = {};
 
-const HelloConcurrencyWorker: React.FC<PropsType> = props => {
+const HelloConcurrencyWorkerDemo: React.FC<PropsType> = props => {
   useEffect(() => {
     (async () => {
       const map = wrap<MapWorkerType>(
@@ -24,4 +24,4 @@ const HelloConcurrencyWorker: React.FC<PropsType> = props => {
   return <div>HelloConcurrencyWorker</div>;
 };
 
-export default HelloConcurrencyWorker;
+export default HelloConcurrencyWorkerDemo;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { wrap } from "comlink";
-import { HelloWorker } from "./hello.worker.type";
+import { HelloWorker } from "./Hello.worker.type";
 
 type PropsType = {};
 
