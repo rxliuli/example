@@ -1,21 +1,21 @@
 import * as React from "react";
 import { useEffect } from "react";
-import { MapWorkerType } from "./HelloConcurrency.worker.type";
+import { MapWorkerType } from "./HelloCallback.worker.type";
 import { proxy, wrap } from "comlink";
 
 type PropsType = {};
 
-const HelloConcurrencyWorkerDemo: React.FC<PropsType> = props => {
+const HelloCallbackWorkerDemo: React.FC<PropsType> = () => {
   useEffect(() => {
     (async () => {
       const map = wrap<MapWorkerType>(
-        new Worker("./callback.worker.ts", {
-          type: "module"
+        new Worker("./HelloCallback.worker.ts", {
+          type: "module",
         })
       );
       const list = await map(
         [1, 2, 3],
-        proxy(i => i * 2)
+        proxy((i) => i * 2)
       );
       console.log("list: ", list);
     })();
@@ -24,4 +24,4 @@ const HelloConcurrencyWorkerDemo: React.FC<PropsType> = props => {
   return <div>HelloConcurrencyWorker</div>;
 };
 
-export default HelloConcurrencyWorkerDemo;
+export default HelloCallbackWorkerDemo;
