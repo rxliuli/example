@@ -9,7 +9,7 @@ const HelloWorkerDemo: React.FC<PropsType> = () => {
   useEffect(() => {
     (async () => {
       const obj = wrap<HelloWorker>(
-        new Worker("./hello.worker.ts", { type: "module" })
+        new Worker("./Hello.worker.ts", { type: "module" })
       );
       console.log(`Counter: ${await obj.counter}`);
       await obj.inc();
