@@ -36,7 +36,11 @@ const GalleryWeb: React.FC<PropsType> = () => {
                     <li key={i}>{i}</li>
                 ))}
             </ul>
-            <Pagination {...currentPage} onChange={changePagination} />
+            <Pagination
+                {...currentPage}
+                onChange={changePagination}
+                onShowSizeChange={changePagination}
+            />
         </div>
     )
 }
