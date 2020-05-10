@@ -1,0 +1,26 @@
+{
+  "name": "snap_svg_example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@types/mockjs": "^1.0.2",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.9.7",
+    "@types/snapsvg": "^0.5.0",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "snapsvg": "^0.5.1"
+  }
+}
