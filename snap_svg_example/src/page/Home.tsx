@@ -1,48 +1,49 @@
 import * as React from 'react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useDidMount } from '../common/hooks/useDidMount'
 import Snap from 'snapsvg'
 import { get } from '../common/util/get'
+import { GraphicsRenderer } from '../components/mark/model/GraphicsRenderer'
+import { mock, Random } from 'mockjs'
 
 type PropsType = {}
 
-function renderRect(
-  paper: Snap.Paper,
-  data: { x: number; y: number; width: number; height: number },
-) {
-  const { x, y, width, height } = data
-  const rect = paper.rect(x, y, width, height).attr({
-    fill: 'transparent',
-    stroke: 'red',
-  })
-  const middleHeight = y + height / 2
-  const circle = paper.circle(x + width, middleHeight, 10).attr({
-    fill: 'red',
-    stroke: 'blue',
-    strokeWidth: 2,
-  })
-  const line = paper
-    .line(x + width, middleHeight, x + width + 20, middleHeight)
-    .attr({
-      stroke: 'red',
-      strokeWidth: 2,
-    })
-  const text = paper.text(x + width + 20, middleHeight + 7, 'Hello 你好').attr({
-    fill: 'red',
-    'user-select': 'none',
-  })
-  return paper.group(rect, line, circle, text)
-}
-
 const Home: React.FC<PropsType> = (props) => {
   const svgRef = useRef<SVGSVGElement>(null)
+  const maxWidth = 700
+  const maxHeight = 400
+  const [paper, setPaper] = useState<Snap.Paper>()
+  const [gr, setGr] = useState<GraphicsRenderer>()
   useDidMount(() => {
     const paper = Snap(svgRef.current!)
-    paper.image('https://picsum.photos/500/400', 0, 0, 500, 400)
-    const group = renderRect(paper, { x: 100, y: 100, width: 40, height: 40 })
-
-    Reflect.set(window, 'paper', paper)
-    Reflect.set(window, 'renderRect', renderRect)
+    setPaper(paper)
+    const gr = new GraphicsRenderer(paper, {
+      width: maxWidth,
+      height: maxHeight,
+    })
+    setGr(gr)
+    paper.image('https://picsum.photos/500/400', 0, 0, maxWidth, maxHeight)
+    // const list = Array(1000)
+    //   .fill(0)
+    //   .map(() => ({
+    //     x: Random.integer(0, maxWidth),
+    //     y: Random.integer(0, maxHeight),
+    //     width: Random.integer(0, maxWidth / 2),
+    //     height: Random.integer(0, maxHeight / 2),
+    //   }))
+    const list = [
+      { x: 100, y: 100, width: 40, height: 40 },
+      { x: 300, y: 150, width: 60, height: 40 },
+    ]
+    list.map((item) => {
+      const rect = gr!.renderRect(item)
+      rect.click((event) => {
+        console.log('rect clicked: ', event.clientX, event.clientY)
+        rect.setText('hello world')
+        rect.remove()
+      })
+      return rect
+    })
 
     // group.drag(
     //   (dx, dy) => {
@@ -110,12 +111,18 @@ const Home: React.FC<PropsType> = (props) => {
         rect.remove()
         console.log('onEnd', { x, y, width, height })
         if (width > 10 && height > 10) {
-          renderRect(paper, {
+          const rect = gr!.renderRect({
             x,
             y,
             width,
             height,
           })
+          rect.click((event) => {
+            console.log('rect clicked: ', event.clientX, event.clientY)
+            rect.setText('hello world')
+            rect.remove()
+          })
+          rect.node.dispatchEvent(new Event('click'))
         }
       },
     )
@@ -133,11 +140,11 @@ const Home: React.FC<PropsType> = (props) => {
     // })
   })
   return (
-    <div style={{ marginLeft: 200 }}>
+    <div style={{ marginLeft: 100 }}>
       <svg
         ref={svgRef}
-        width={500}
-        height={400}
+        width={maxWidth}
+        height={maxHeight}
         style={{ border: '1px solid #000000' }}
       />
     </div>

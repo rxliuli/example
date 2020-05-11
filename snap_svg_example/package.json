@@ -18,9 +18,11 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "mockjs": "^1.1.0",
     "normalize.css": "^8.0.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
+    "rx-util": "^1.7.17",
     "snapsvg": "^0.5.1"
   }
 }
