@@ -32,7 +32,10 @@ export class DragUtil {
     }
   }
 
-  static dragOnEnd(paper: Snap.Paper, callback: (rect: RectData) => void) {
+  static dragOnEnd(
+    paper: Snap.Paper,
+    callback: (data: RectData, rect: Snap.Element) => void,
+  ) {
     return () => {
       const rect = paper.data('tempRect')
       const x = Number.parseInt(rect.attr('x')) + get(rect, 'matrix.e', 0)
@@ -40,12 +43,15 @@ export class DragUtil {
       const width = Number.parseInt(rect.attr('width'))
       const height = Number.parseInt(rect.attr('height'))
       // rect.remove()
-      callback({
-        x,
-        y,
-        width,
-        height,
-      })
+      callback(
+        {
+          x,
+          y,
+          width,
+          height,
+        },
+        rect,
+      )
     }
   }
 }

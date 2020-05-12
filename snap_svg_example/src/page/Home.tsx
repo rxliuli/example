@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { Reducer, useEffect, useReducer, useRef, useState } from 'react'
+import {
+  Reducer,
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react'
 import { useDidMount } from '../common/hooks/useDidMount'
 import Snap from 'snapsvg'
 import { GraphicsRenderer } from '../components/mark/util/GraphicsRenderer'
@@ -7,6 +14,8 @@ import produce from 'immer'
 import { DragUtil } from '../components/mark/util/DragUtil'
 import { Random } from 'mockjs'
 import { RectData } from '../components/mark/model/RectData'
+import { SimplePoint, SimpleRect } from '../components/mark/util/Rect'
+import { filterGetIndexMap } from '../common/util/filterGetIndexMap'
 
 type PropsType = {}
 
@@ -42,6 +51,8 @@ const Home: React.FC<PropsType> = props => {
   const maxHeight = 400
   const [paper, setPaper] = useState<Snap.Paper>()
   const [gr, setGr] = useState<GraphicsRenderer>()
+
+  //矩形配置列表数据
   const [list, dispatch] = useReducer<
     Reducer<ListReducerState, ListReducerAction>
   >(
@@ -60,31 +71,60 @@ const Home: React.FC<PropsType> = props => {
     },
     [
       { x: 100, y: 100, width: 40, height: 40, color: 'yellow', text: 'First' },
-      { x: 300, y: 150, width: 60, height: 40, text: '第二个' },
+      {
+        x: 300,
+        y: 150,
+        width: 100,
+        height: 100,
+        text: '第二个',
+        visible: false,
+      },
     ] as RectData[],
   )
 
-  Reflect.set(window, 'paper', paper)
-
-  useEffect(() => {
-    paper && clearRectPaper(paper)
-    gr?.renderList(list).forEach((item, index) =>
-      //点击时设置文本
-      item.click(() => {
-        dispatch({
-          type: 'set',
-          data: {
+  function renderList() {
+    console.log('重新渲染: ', list)
+    const [filterList, map] = filterGetIndexMap(
+      list,
+      ({ visible = true }) => visible,
+    )
+    gr?.renderList(filterList).forEach(
+      //region 点击时设置文本
+      (item, i) => {
+        console.log('render forEach: ', item, map.get(i))
+        const index = map.get(i)!
+        item.click(event => {
+          const data = {
             index,
             value: {
               ...list[index],
               text: Random.string(),
             },
-          },
-        })
-      }),
-    )
-  }, [list])
+          }
+          console.log('click: ', list[index], data)
 
+          dispatch({
+            type: 'set',
+            data,
+          })
+
+          //阻止默认事件传播
+          event.stopPropagation()
+        })
+      },
+
+      //endregion
+    )
+  }
+
+  //根据配置列表渲染
+  useEffect(() => {
+    paper && clearRectPaper(paper)
+
+    renderList()
+  }, [list, gr])
+
+  //初始化
   useDidMount(() => {
     const paper = Snap(svgRef.current!)
     setPaper(paper)
@@ -93,25 +133,69 @@ const Home: React.FC<PropsType> = props => {
       height: maxHeight,
     })
     setGr(gr)
-    paper.image('https://picsum.photos/500/400', 0, 0, maxWidth, maxHeight)
-
-    gr.renderList(list)
+    paper.image(
+      'https://i.picsum.photos/id/758/500/400.jpg',
+      0,
+      0,
+      maxWidth,
+      maxHeight,
+    )
   })
+
+  //绑定 drag
   useEffect(() => {
     paper?.drag(
       DragUtil.dragOnMove(paper),
       DragUtil.dragOnStart(paper),
-      DragUtil.dragOnEnd(paper, rect => {
-        if (rect.width > 10 && rect.height > 10) {
+      DragUtil.dragOnEnd(paper, (data, rect) => {
+        if (data.width > 10 && data.height > 10) {
           dispatch({
             type: 'add',
-            data: rect,
+            data,
           })
+        } else {
+          rect.remove()
         }
       }),
     )
+    paper?.click(event => {
+      console.log('paper?.click: ')
+      const visibleList = list.map((item, i) => {
+        const { x, y, width, height } = item
+        const isContain = new SimpleRect(
+          {
+            x,
+            y,
+          },
+          {
+            x: x + width,
+            y: y + height,
+          },
+        ).isContains({
+          x: event.offsetX,
+          y: event.offsetY,
+        })
+        return [isContain, item] as const
+      })
+      //如果没有点击到任何图形则不做任何修改
+      if (visibleList.filter(([isContain]) => isContain).length === 0) {
+        return
+      }
+      //否则隐藏未点击到的图形，显示点击到的图形
+      visibleList.forEach(([isContain, item], index) => {
+        dispatch({
+          type: 'set',
+          data: {
+            index,
+            value: { ...item, visible: isContain },
+          },
+        })
+      })
+    })
+
     return () => {
       paper?.undrag()
+      paper?.unclick()
     }
   }, [paper, list, dispatch])
 
