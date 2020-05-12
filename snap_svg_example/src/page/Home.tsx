@@ -2,13 +2,11 @@ import * as React from 'react'
 import { Reducer, useEffect, useReducer, useRef, useState } from 'react'
 import { useDidMount } from '../common/hooks/useDidMount'
 import Snap from 'snapsvg'
-import {
-  GraphicsRenderer,
-  RectData,
-} from '../components/mark/model/GraphicsRenderer'
+import { GraphicsRenderer } from '../components/mark/util/GraphicsRenderer'
 import produce from 'immer'
 import { DragUtil } from '../components/mark/util/DragUtil'
 import { Random } from 'mockjs'
+import { RectData } from '../components/mark/model/RectData'
 
 type PropsType = {}
 
@@ -23,6 +21,20 @@ type ListReducerAction =
       type: 'set'
       data: { index: number; value: RectData }
     }
+
+/**
+ * 清除 paper 中所有的矩形元素
+ * @param paper
+ */
+function clearRectPaper(paper: Snap.Paper) {
+  paper.children().forEach(rect => {
+    //不删除默认的几个基本元素
+    if (['desc', 'defs', 'image'].includes(rect.type)) {
+      return
+    }
+    rect.remove()
+  })
+}
 
 const Home: React.FC<PropsType> = props => {
   const svgRef = useRef<SVGSVGElement>(null)
@@ -55,13 +67,7 @@ const Home: React.FC<PropsType> = props => {
   Reflect.set(window, 'paper', paper)
 
   useEffect(() => {
-    paper?.children().forEach(rect => {
-      //不删除默认的几个基本元素
-      if (['desc', 'defs', 'image'].includes(rect.type)) {
-        return
-      }
-      rect.remove()
-    })
+    paper && clearRectPaper(paper)
     gr?.renderList(list).forEach((item, index) =>
       //点击时设置文本
       item.click(() => {

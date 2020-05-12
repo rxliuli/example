@@ -1,6 +1,6 @@
 import Snap from 'snapsvg'
-import { RectData } from '../model/GraphicsRenderer'
 import { get } from '../../../common/util/get'
+import { RectData } from '../model/RectData'
 
 export class DragUtil {
   static dragOnMove(paper: Snap.Paper) {

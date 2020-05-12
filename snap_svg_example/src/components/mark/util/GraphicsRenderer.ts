@@ -1,13 +1,5 @@
 import Snap from 'snapsvg'
-
-export interface RectData {
-  x: number
-  y: number
-  width: number
-  height: number
-  color?: string
-  text?: string
-}
+import { RectData } from '../model/RectData'
 
 export class GraphicsRenderer {
   constructor(
@@ -32,7 +24,11 @@ export class GraphicsRenderer {
     return { x, y, width, height }
   }
 
-  renderRect(data: RectData) {
+  /**
+   * 渲染一个矩形
+   * @param data
+   */
+  private renderRect(data: RectData) {
     const { x, y, width, height } = this.computeRectData(data)
     const rect = this.paper.rect(x, y, width, height).attr({
       fill: 'transparent',
