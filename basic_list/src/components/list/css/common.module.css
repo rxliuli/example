@@ -1,0 +1,162 @@
+/*stylelint-disable*/
+
+/*设计理念:
+1. 使用复数单词组合而非中缀符的形式写通用样式，避免写出 class="flex flex-wrap flex-center" 这种东西
+    如果真的出现过于复杂 class 冲突时，不排除会添加 flex-wrap 之类的别名以避免冲突
+2. 大多数情况下在指定分类时都会加上通用分类 class，避免与业务代码中的 class 造成过大的冲突
+3. 尽量统一化指定单词的意义，例如 center，不管是文本，还是 flex 中，都代表水平居中的意思*/
+
+/*region 文字*/
+
+/*文字水平居中*/
+.text.center {
+    text-align: center;
+}
+
+/*文字垂直居中*/
+.text.middle {
+    vertical-align: middle;
+}
+
+/*文字右侧对其*/
+.text.right {
+    text-align: right;
+}
+
+/***不重要的文字*/
+.text.unimportant {
+    color: #999;
+    font-size: 14px;
+}
+
+/*文字省略*/
+.text.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+}
+
+/*强制文字不换行*/
+.text.nowrap {
+    white-space: nowrap;
+}
+
+/*endregion*/
+
+/*region 字体相关*/
+
+/*粗体*/
+.font.bold {
+    font-weight: bold;
+}
+
+/*endregion*/
+
+/*region 区块*/
+
+/*块状元素*/
+.block {
+    display: block;
+}
+
+/*行内元素*/
+.inline {
+    display: inline;
+}
+
+/*行内块状元素*/
+.inline.block {
+    display: inline-block;
+}
+
+/*endregion*/
+
+/*region 其他*/
+
+/*隐藏元素*/
+.hide {
+    display: none;
+}
+
+/*图片容器*/
+.img img {
+    width: 100%;
+}
+
+/*鼠标悬浮*/
+.pointer:hover {
+    cursor: pointer;
+}
+
+/*endregion*/
+
+/*region flex*/
+
+/*flex 布局*/
+.flex {
+    display: flex;
+}
+
+/*flex 纵列排布*/
+.flex.column {
+    flex-direction: column;
+}
+
+/*flex 允许折行*/
+.flex.wrap {
+    flex-wrap: wrap;
+}
+
+/*flex 辅轴居中*/
+.flex.middle {
+    align-items: center;
+}
+
+/*flex 辐轴底部对齐*/
+.flex.baseline {
+    align-items: baseline;
+}
+
+/*flex 主轴居中*/
+.flex.center {
+    justify-content: center;
+}
+
+/*flex 主轴两侧分布*/
+.flex.spaceBetween {
+    justify-content: space-between;
+}
+
+/*flex 主轴两侧分布，但与边缘存在一定空间*/
+.flex.spaceAround {
+    justify-content: space-around;
+}
+
+/*endregion*/
+
+/*region 定位*/
+
+/*相对定位，作为绝对定位的父级上下文使用*/
+.position.relative {
+    position: relative;
+}
+
+/*绝对定位，与上面配合使用*/
+.position.absolute {
+    position: absolute;
+}
+
+/*固定定位*/
+.position.fixed {
+    position: fixed;
+}
+
+.position.full {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/*endregion*/

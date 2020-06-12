@@ -1,0 +1,7 @@
+.global.margin {
+    margin: 24px;
+}
+
+.global.padding {
+    padding: 24px 32px;
+}
