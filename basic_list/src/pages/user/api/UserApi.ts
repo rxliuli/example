@@ -1,5 +1,5 @@
-import { BaseListApi } from '../../../components/list'
-import { PageRes } from '../../../components/list'
+import { BaseListApi, PageData } from '../../../components/list'
+import { mock } from 'mockjs'
 
 type UserPageListParam = {}
 
@@ -10,18 +10,24 @@ type UserPageListRes = {
 }
 
 class UserApi implements BaseListApi {
-  async pageList(params: UserPageListParam) {
+  async pageList(
+    params: UserPageListParam,
+  ): Promise<PageData<UserPageListRes>> {
+    const mockUserTemplate = {
+      'id|+1': 0,
+      name: '@cname',
+      birthday: '@date(yyyy-MM-dd hh:mm:ss)',
+    }
+    const list = mock({
+      'list|10': [mockUserTemplate],
+    }).list
     return {
-      count: 8,
-      total: 8,
-      list: [
-        {
-          id: '1',
-          name: 'liuli',
-          age: 17,
-        },
-      ],
-    } as PageRes<UserPageListRes>
+      offset: 0,
+      size: 10,
+      total: 50,
+      count: 0,
+      list,
+    }
   }
 }
 

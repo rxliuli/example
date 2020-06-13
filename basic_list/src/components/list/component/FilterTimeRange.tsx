@@ -1,20 +1,12 @@
 import React from 'react'
 import { DatePicker, Form } from 'antd'
 import { FilterFieldBase, FilterFieldTypeEnum } from '../model'
-import { FilterUtil } from '../util/FilterUtil'
 
 const { RangePicker } = DatePicker
 
 export interface FilterTimeRangeType extends FilterFieldBase {
   type: FilterFieldTypeEnum.TimeRange
-  /**
-   * 日期区间的两个字段
-   */
-  fields: [string, string]
-  /**
-   * 标题
-   */
-  label: string
+  field: string
 }
 
 /**
@@ -22,9 +14,9 @@ export interface FilterTimeRangeType extends FilterFieldBase {
  * @param props
  * @constructor
  */
-const FilterTimeRange = ({ label, fields }: FilterTimeRangeType) => {
+const FilterTimeRange = ({ label, field }: FilterTimeRangeType) => {
   return (
-    <Form.Item label={label} name={FilterUtil.generateTimeRangeField(fields)}>
+    <Form.Item label={label} name={field}>
       <RangePicker />
     </Form.Item>
   )

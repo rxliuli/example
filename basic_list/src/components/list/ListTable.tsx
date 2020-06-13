@@ -65,8 +65,9 @@ class ListTable extends Component<PropsType, StateType> {
     this.searchPage()
   }
 
-  searchPage: () => Promise<PageData<any>> = switchMap(
-    debounce(100, async () => {
+  searchPage: () => Promise<PageData<any>> = switchMap(debounce(
+    100,
+    async () => {
       const { offset, size } = this.state.page
       const data = {
         page: {
@@ -83,8 +84,8 @@ class ListTable extends Component<PropsType, StateType> {
           draft.page.list = page.list
         }),
       )
-    }) as any,
-  )
+    },
+  ) as any)
   changeCurrent = ({ current, pageSize }: PaginationConfig) => {
     this.setState(
       produce(this.state, (draft) => {

@@ -21,13 +21,7 @@ export interface FilterSelectType extends FilterFieldBase {
 const FilterSelect = ({ field, label, options }: FilterSelectType) => {
   return (
     <Form.Item label={label} name={field}>
-      <Select
-        allowClear
-        options={options}
-        style={{
-          width: 100,
-        }}
-      />
+      <Select options={options} allowClear />
     </Form.Item>
   )
 }
