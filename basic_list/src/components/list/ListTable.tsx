@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Table } from 'antd'
 import globalStyles from './css/ListGlobal.module.css'
 import classNames from 'classnames'
@@ -30,7 +30,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
           search: props.params,
         }
         const pageRes = await props.api.pageList(data)
-        console.log('searchPage: ', page, pageRes)
+        console.log('searchPage: ', data, pageRes)
         setPage(
           produce((draft) => {
             draft.total = pageRes.total
@@ -59,7 +59,14 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
     setSelectedRowKeys(selectedRowKeys)
   }, [])
 
+  //之所以不在 ListFilter 组件里拦截的原因在于用户可能多次点击搜索，而搜索是在 ListHeader 组件中的。。。
+  const oldSearchParam = useRef<string>()
   useEffect(() => {
+    const currSearchParam = JSON.stringify(props.params)
+    if (oldSearchParam.current === currSearchParam) {
+      return
+    }
+    oldSearchParam.current = currSearchParam
     console.log('params changed', props.params)
     const pageConf = {
       ...page,
