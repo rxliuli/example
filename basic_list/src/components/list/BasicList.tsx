@@ -3,7 +3,7 @@ import ListHeader from './ListHeader'
 import ListFilter from './ListFilter'
 import ListTable from './ListTable'
 import { useModel } from './hooks/useModel'
-import { BasicListPropsType } from './model/BasicListPropsType'
+import { BasicListPropsType } from './model'
 
 const BasicList: React.FC<BasicListPropsType> = (props) => {
   const { filters, columns, header, api, tableOptions, tableOperate } = props

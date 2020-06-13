@@ -129,7 +129,6 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
 
   return (
     <div
-      className={classNames(globalStyles.margin)}
       style={{
         margin: '24px auto',
       }}
@@ -163,7 +162,6 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
           dataSource={page.list}
           pagination={pageConfig}
           onChange={changePage}
-          scroll={{ x: 1200 }}
         />
       </Card>
     </div>
