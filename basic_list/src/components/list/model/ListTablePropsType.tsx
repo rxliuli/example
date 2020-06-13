@@ -1,10 +1,10 @@
 import { Params, TableColumn, TableOptions } from './index'
 import { BaseListApi } from '../api/BaseListApi'
-import { PageData, PageRes } from './Page'
+import { PageData, PageParam } from './Page'
 import { ReactElement } from 'react'
 
 export type ListTableOperate = (param: {
-  searchPage: () => Promise<PageRes<any>>
+  searchPage: (page: PageParam) => Promise<void>
   selectedRowKeys: string[]
   page: PageData<any>
   params: Params

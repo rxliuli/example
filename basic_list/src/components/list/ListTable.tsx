@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Card, Table } from 'antd'
 import globalStyles from './css/ListGlobal.module.css'
 import classNames from 'classnames'
-import { debounce, logger, StringValidator, switchMap } from 'rx-util'
+import { debounce, StringValidator, switchMap } from 'rx-util'
 import produce from 'immer'
-import { PaginationConfig } from 'antd/es/pagination'
 import commonStyles from './css/common.module.css'
 import { TableRowSelection } from 'antd/es/table/interface'
-import { PageData } from './model/Page'
+import { PageData, PageParam } from './model/Page'
 import { ListTablePropsType } from './model/ListTablePropsType'
+import { TableProps } from 'antd/es/table'
 
 const ListTable: React.FC<ListTablePropsType> = (props) => {
   const [page, setPage] = useState<PageData<any>>({
@@ -19,54 +19,54 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
     list: [] as any[],
   })
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
-  const searchPage = useCallback<() => Promise<PageData<any>>>(
-    switchMap(debounce(100, async () => {
-      const { offset, size } = page
-      const data = {
-        page: {
-          offset,
-          size,
-        },
-        search: props.params,
-      }
-      logger.log('执行了搜索: ', data)
-      const pageRes = await props.api.pageList(data)
-      setPage(
-        produce(page, (draft) => {
-          draft.total = pageRes.total
-          draft.count = pageRes.count
-          draft.list = pageRes.list
-        }),
-      )
-    }) as any),
-    [],
+  const searchPage = useCallback(
+    switchMap(
+      debounce(100, async ({ offset, size }: PageParam) => {
+        const data = {
+          page: {
+            offset,
+            size,
+          },
+          search: props.params,
+        }
+        const pageRes = await props.api.pageList(data)
+        console.log('searchPage: ', page, pageRes)
+        setPage(
+          produce((draft) => {
+            draft.total = pageRes.total
+            draft.count = pageRes.count
+            draft.list = pageRes.list
+          }),
+        )
+      }),
+    ),
+    [page, props.api, props.params],
   )
-
-  const changeCurrent = useCallback(
-    ({ current, pageSize }: PaginationConfig) => {
-      setPage(
-        produce(page, (draft) => {
-          draft.offset = (current! - 1) * pageSize!
-          draft.size = pageSize!
-        }),
-      )
+  const changePage: TableProps<any>['onChange'] = useCallback(
+    async ({ current, pageSize }) => {
+      console.log('changePage: ', current, pageSize)
+      const pageConf = {
+        ...page,
+        offset: (current! - 1) * pageSize!,
+        size: pageSize!,
+      }
+      setPage(pageConf)
+      searchPage({ offset: pageConf.offset, size: pageConf.size }).then()
     },
-    [page],
+    [page, searchPage],
   )
   const onSelectChange = useCallback((selectedRowKeys: string[]) => {
     setSelectedRowKeys(selectedRowKeys)
   }, [])
 
   useEffect(() => {
-    searchPage().then()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page.offset, page.size])
-  useEffect(() => {
-    setPage({
+    console.log('params changed', props.params)
+    const pageConf = {
       ...page,
       offset: 0,
-    })
-    searchPage().then()
+    }
+    setPage(pageConf)
+    searchPage({ offset: pageConf.offset, size: pageConf.size }).then()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.params])
 
@@ -143,9 +143,9 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
           </div>
           {props.tableOperate &&
             props.tableOperate({
-              searchPage: searchPage,
-              selectedRowKeys: selectedRowKeys,
-              page: page,
+              searchPage,
+              selectedRowKeys,
+              page,
               params: props.params,
             })}
         </div>
@@ -155,7 +155,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
           columns={innerColumns}
           dataSource={page.list}
           pagination={pageConfig}
-          onChange={changeCurrent as any}
+          onChange={changePage}
           scroll={{ x: 1200 }}
         />
       </Card>
