@@ -43,7 +43,7 @@ const BasicList: React.FC<BasicListPropsType> = (props) => {
         columns={columns}
         api={api}
         params={innerParams}
-        options={tableOptions}
+        tableOptions={tableOptions}
         tableOperate={tableOperate}
       />
     </div>

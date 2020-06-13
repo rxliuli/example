@@ -1,20 +1,15 @@
-import { Header, Params, TableColumn, TableOptions } from './index'
+import { Header } from './index'
 import { ReactElement } from 'react'
-import { FilterSelectType } from '../component/FilterSelect'
-import { FilterTimeRangeType } from '../component/FilterTimeRange'
-import { FilterSlotType } from '../component/FilterSlot'
-import { BaseListApi } from '../api/BaseListApi'
-import { TableOperate } from '../ListTable'
+import { ListTablePropsType } from './ListTablePropsType'
+import { ListFilterPropsType } from './ListFilterPropsType'
 
-export interface BasicListPropsType {
+export type BasicListPropsType = Pick<
+  ListTablePropsType,
+  'columns' | 'api' | 'params' | 'tableOperate' | 'tableOptions'
+> & {
   header: Header | ReactElement
   filters?:
-    | (FilterSelectType | FilterTimeRangeType | FilterSlotType)[]
+    | ListFilterPropsType['filters']
     | ((params: any, onChange: (params: any) => void) => ReactElement)
-  columns: TableColumn[]
-  api: BaseListApi
-  params?: Params
-  onChange?: (params: Params) => void
-  tableOptions?: TableOptions
-  tableOperate?: TableOperate
+  onChange?: ListFilterPropsType['onChange']
 }

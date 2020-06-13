@@ -1,21 +1,14 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, {useCallback, useEffect, useMemo} from 'react'
 import globalStyles from './css/ListGlobal.module.css'
 import classNames from 'classnames'
-import { Card, Col, Form, Row } from 'antd'
-import FilterSelect, { FilterSelectType } from './component/FilterSelect'
-import { FilterFieldTypeEnum } from './model'
-import { useForm } from 'antd/es/form/util'
-import FilterTimeRange, {
-  FilterTimeRangeType,
-} from './component/FilterTimeRange'
-import { FilterUtil } from './util/FilterUtil'
-import FilterSlot, { FilterSlotType } from './component/FilterSlot'
-
-type PropsType<T = any> = {
-  initialValue: T
-  filters: (FilterSelectType | FilterTimeRangeType | FilterSlotType)[]
-  onChange: (value: T) => void
-}
+import {Card, Col, Form, Row} from 'antd'
+import FilterSelect from './component/FilterSelect'
+import {FilterFieldTypeEnum} from './model'
+import {useForm} from 'antd/es/form/util'
+import FilterTimeRange from './component/FilterTimeRange'
+import {FilterUtil} from './util/FilterUtil'
+import FilterSlot from './component/FilterSlot'
+import {ListFilterPropsType} from './model/ListFilterPropsType'
 
 const map = {
   [FilterFieldTypeEnum.Select]: FilterSelect,
@@ -28,7 +21,7 @@ const map = {
  * @param props
  * @constructor
  */
-const ListFilter: React.FC<PropsType> = (props) => {
+const ListFilter: React.FC<ListFilterPropsType> = (props) => {
   const [form] = useForm()
 
   useEffect(() => {
