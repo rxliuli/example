@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Card, Table } from 'antd'
-import globalStyles from './css/ListGlobal.module.css'
 import classNames from 'classnames'
 import { debounce, StringValidator, switchMap } from 'rx-util'
 import produce from 'immer'
 import commonStyles from './css/common.module.css'
 import { TableRowSelection } from 'antd/es/table/interface'
-import { PageData, PageParam } from './model/Page'
-import { ListTablePropsType } from './model/ListTablePropsType'
+import { ListTablePropsType, PageData, PageParam } from './model'
 import { TableProps } from 'antd/es/table'
 
 const ListTable: React.FC<ListTablePropsType> = (props) => {
@@ -21,7 +19,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const searchPage = useCallback(
     switchMap(
-      debounce(100, async ({ offset, size }: PageParam) => {
+      debounce(100, async ({ offset, size }: PageParam = page) => {
         const data = {
           page: {
             offset,
@@ -102,7 +100,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
     )
   }, [props.columns])
   const rowSelection = useMemo(
-    function(): TableRowSelection<any> | undefined {
+    function (): TableRowSelection<any> | undefined {
       return innerOptions.isSelect
         ? {
             selectedRowKeys: selectedRowKeys,
@@ -113,7 +111,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
     [innerOptions.isSelect, onSelectChange, selectedRowKeys],
   )
   const pageConfig = useMemo(
-    function() {
+    function () {
       const { offset, size, total } = page
       return {
         showQuickJumper: true,
@@ -151,6 +149,7 @@ const ListTable: React.FC<ListTablePropsType> = (props) => {
             props.tableOperate({
               searchPage,
               selectedRowKeys,
+              setSelectedRowKeys,
               page,
               params: props.params,
             })}

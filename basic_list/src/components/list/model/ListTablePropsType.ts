@@ -3,12 +3,15 @@ import { BaseListApi } from '../api/BaseListApi'
 import { PageData, PageParam } from './Page'
 import { ReactElement } from 'react'
 
-export type ListTableOperate = (param: {
-  searchPage: (page: PageParam) => Promise<void>
+export interface ListTableOperateParam {
+  searchPage: (page?: PageParam) => Promise<void>
   selectedRowKeys: string[]
+  setSelectedRowKeys: (selectedRowKeys: string[]) => void
   page: PageData<any>
   params: Params
-}) => ReactElement
+}
+
+export type ListTableOperate = (param: ListTableOperateParam) => ReactElement
 
 export interface ListTablePropsType {
   columns: TableColumn[]

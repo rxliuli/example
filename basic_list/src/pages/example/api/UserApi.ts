@@ -29,6 +29,7 @@ class UserApi implements BaseListApi {
       list,
     }
   }
+  async batchDelete(idList: string[]) {}
 }
 
 export const userApi = new UserApi()
