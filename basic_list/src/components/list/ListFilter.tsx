@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect } from 'react'
-import globalStyles from './css/ListGlobal.module.css'
-import classNames from 'classnames'
 import { Card, Col, Form, Row } from 'antd'
 import FilterSelect from './component/FilterSelect'
 import { FilterFieldTypeEnum } from './model'
@@ -38,7 +36,11 @@ const ListFilter: React.FC<ListFilterPropsType> = React.memo((props) => {
     props.onChange(values)
   }, [form, props])
   return (
-    <div className={classNames(globalStyles.global, globalStyles.margin)}>
+    <div
+      style={{
+        margin: 24,
+      }}
+    >
       <Card>
         <Form form={form} onValuesChange={handleChange} layout={'horizontal'}>
           <Row gutter={24}>
