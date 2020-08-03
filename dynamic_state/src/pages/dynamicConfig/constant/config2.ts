@@ -1,4 +1,4 @@
-import { BasicFormItemTypeEnum } from '../model/BasicFormItemTypeEnum'
+import { BasicFormItemTypeEnum } from '../../../components/basicForm/model/BasicFormItemTypeEnum'
 
 export const config2 = [
   [

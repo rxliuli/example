@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useMemo } from 'react'
-import BasicFormBox from './component/BasicFormBox'
+import { BasicFormBox } from '../../components/basicForm/'
 import { Button, Card, Form } from 'antd'
 import { config1 } from './constant/config1'
 import { config2 } from './constant/config2'
