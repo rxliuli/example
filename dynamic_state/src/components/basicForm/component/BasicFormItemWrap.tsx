@@ -42,7 +42,12 @@ export class BasicFormItemWrap {
   static Input(props: BasicFormItemInputType) {
     return BasicFormItemWrap.Slot({
       ...props,
-      children: <Input placeholder={props.placeholder || '请输入'} />,
+      children: (
+        <Input
+          placeholder={props.placeholder || '请输入'}
+          disabled={props.disabled}
+        />
+      ),
     })
   }
   static Select(props: BasicFormItemSelectType) {
@@ -54,6 +59,7 @@ export class BasicFormItemWrap {
           options={props.options}
           showSearch
           optionFilterProp={'label'}
+          disabled={props.disabled}
         />
       ),
     })
@@ -61,14 +67,16 @@ export class BasicFormItemWrap {
   static Radio(props: BasicFormItemRadioType) {
     return BasicFormItemWrap.Slot({
       ...props,
-      children: <Radio.Group options={props.options} />,
+      children: (
+        <Radio.Group options={props.options} disabled={props.disabled} />
+      ),
     })
   }
   static Checkbox(props: BasicFormItemCheckboxType) {
     return BasicFormItemWrap.Slot({
       ...props,
       children: (
-        <Checkbox.Group style={{ width: '100%' }}>
+        <Checkbox.Group style={{ width: '100%' }} disabled={props.disabled}>
           <Row>
             {props.options.map((option) => (
               <Col span={4} key={option.value}>
@@ -88,6 +96,7 @@ export class BasicFormItemWrap {
           format={props.format}
           style={{ width: '100%' }}
           placeholder={props.placeholder || '请选择'}
+          disabled={props.disabled}
         />
       ),
     })

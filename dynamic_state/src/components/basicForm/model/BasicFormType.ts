@@ -5,7 +5,9 @@ export type BasicFormItemSlotType = FormItemProps & { colspan?: number }
 type BasicFormItemBaseSelectionType = BasicFormItemNotSlotType & {
   options: LabeledValue[]
 }
-type BasicFormItemNotSlotType = Omit<BasicFormItemSlotType, 'children'>
+type BasicFormItemNotSlotType = Omit<BasicFormItemSlotType, 'children'> & {
+  disabled?: boolean
+}
 export type BasicFormItemInputType = BasicFormItemNotSlotType & {
   placeholder?: string
 }
