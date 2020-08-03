@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tabs } from 'antd'
 import RegisterForm from './pages/dynamicConfig/RegisterForm'
+import RegisterFormRC from './pages/dynamicComponent/RegisterFormRC'
 
 const App: React.FC = () => (
   <div>
@@ -10,7 +11,7 @@ const App: React.FC = () => (
         <RegisterForm />
       </Tabs.TabPane>
       <Tabs.TabPane tab={'动态组件'} key={2}>
-        动态组件
+        <RegisterFormRC />
       </Tabs.TabPane>
       <Tabs.TabPane tab={'hooks'} key={3}>
         hooks
