@@ -2,6 +2,7 @@ import React from 'react'
 import { Tabs } from 'antd'
 import RegisterForm from './pages/dynamicConfig/RegisterForm'
 import RegisterFormRC from './pages/dynamicComponent/RegisterFormRC'
+import RegisterFormHooks from './pages/useHooks/RegisterFormHooks'
 
 const App: React.FC = () => (
   <div>
@@ -14,7 +15,7 @@ const App: React.FC = () => (
         <RegisterFormRC />
       </Tabs.TabPane>
       <Tabs.TabPane tab={'hooks'} key={3}>
-        hooks
+        <RegisterFormHooks />
       </Tabs.TabPane>
     </Tabs>
   </div>
