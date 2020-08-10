@@ -1,0 +1,26 @@
+{
+  "name": "@rxliuli/math",
+  "version": "1.0.0",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "clean": "rimraf -rf ./dist",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "yarn run build",
+    "test": "yarn run build"
+  },
+  "dependencies": {
+    "@rxliuli/add": "^1.0.0"
+  },
+  "devDependencies": {
+    "rimraf": "~3.0.2",
+    "@types/jest": "^26.0.9",
+    "jest": "^26.2.2",
+    "ts-jest": "^26.1.4",
+    "typescript": "~3.9.6"
+  }
+}

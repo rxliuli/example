@@ -1,0 +1,15 @@
+{
+  "name": "lerna_monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "bs": "lerna bootstrap"
+  }
+}
