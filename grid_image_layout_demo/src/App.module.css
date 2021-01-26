@@ -1,60 +1,56 @@
-html, body, #root {
-    height: 100%;
-}
-
 .aiResultUi {
-    height: 100%;
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-    grid-row-gap: 16px;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  grid-row-gap: 16px;
 }
 
 .aiResultUiItem {
-    height: 100%;
-    display: flex;
+  height: 100%;
+  display: flex;
 }
 
 .aiResultUiItem > *:first-child {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .aiResultUiItem > * {
-    flex-grow: 0;
-    flex-shrink: 0;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .aiResultUiItemImageList {
-    height: 100%;
-    display: flex;
-    align-items: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .aiResultUiItemImageList > div {
-    height: 100%;
-    margin-right: 8px;
-    vertical-align: middle;
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.04);
+  height: 100%;
+  margin-right: 8px;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .aiResultUiItemImageList img {
-    max-height: 100%;
+  max-height: 100%;
 }
 
 .aiResultUiItemDesc {
-    width: 150px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.04);
-    border-left: solid 4px rgba(0, 0, 0, 0.15);
+  width: 150px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.04);
+  border-left: solid 4px rgba(0, 0, 0, 0.15);
 }
 
 .aiResultUiItemDesc > *:last-child {
-    margin-top: auto;
-    cursor: pointer;
+  margin-top: auto;
+  cursor: pointer;
 }
