@@ -1,0 +1,18 @@
+{
+  "name": "hello_example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.3",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "nodejieba": "^2.5.1"
+  }
+}
